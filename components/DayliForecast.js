@@ -6,14 +6,36 @@ import humidity from '../assets/humidity.png'
 import wind from '../assets/wind.png'
 
 export default class HeaderTitle extends React.Component{
+    constructor(props){
+        super(props)
+        this.state=({
+            dataWeather:[]
+        })
+    }
+    componentDidMount(){
+        const {data}=this.props
+        var arr = []
+        data.map(item=>{
+            var date = new Date(item.dt*1000)
+            if(date.getHours()===10){
+                arr.push(item)
+
+            }
+        })
+        this.setState({
+            dataWeather:arr
+        })
+    }
+
     render(){
-        const {data} = this.props
+        const {dataWeather} = this.state
         return(
             <View style={styles.container}>
+
                 <ScrollView style={{width:400}} contentContainerStyle={{alignItems:'center'}}>
                     <Text style={styles.header}>Dự báo 5 ngày tới</Text>
                     {
-                        data.map(item=><View style={styles.child}>
+                        dataWeather.map((item,index)=><View key={index} style={styles.child}>
                             <Grid>
                                 <Col>
                                     <Row>
@@ -39,6 +61,7 @@ export default class HeaderTitle extends React.Component{
                         </View>)
                     }
                 </ScrollView>
+                
             </View>
         )
     }

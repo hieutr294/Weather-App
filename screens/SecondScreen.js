@@ -11,6 +11,7 @@ export default class SecondScreen extends React.Component{
         backgroundColor: '#2ecc71',
       }
     }
+    
     constructor(props) {
         super(props)
         this.state = {
