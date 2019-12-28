@@ -1,6 +1,8 @@
 import React from 'react'
 import {View,StyleSheet,Text,ScrollView,Image} from 'react-native'
 import {Grid,Col, Row} from 'native-base'
+import moment from 'moment'
+
 import thermometer from '../assets/thermometer.png'
 import humidity from '../assets/humidity.png'
 import wind from '../assets/wind.png'
@@ -17,9 +19,8 @@ export default class HeaderTitle extends React.Component{
         var arr = []
         data.map(item=>{
             var date = new Date(item.dt*1000)
-            if(date.getHours()===10){
+            if(date.getHours()==10){
                 arr.push(item)
-
             }
         })
         this.setState({
@@ -39,7 +40,7 @@ export default class HeaderTitle extends React.Component{
                             <Grid>
                                 <Col>
                                     <Row>
-                                        <Text style={{paddingLeft:10,fontSize:16}}>{item.dt_txt}</Text>
+                                        <Text style={{paddingLeft:10,fontSize:16}}>{moment(item.dt*1000).format("DD/MM/YYYY hh:mm A")}</Text>
                                     </Row>
                                     <Row>
                                         <Image style={styles.img} source={thermometer}/>

@@ -15,7 +15,6 @@ SecondPageStack.navigationOptions={
     tabBarLabel:'Dự Báo'
 }
 
-
 const AppNavigator = createBottomTabNavigator({
     HomePageStack,
     SecondPageStack
