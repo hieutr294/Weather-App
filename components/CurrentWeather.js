@@ -20,20 +20,26 @@ export default class CurrentWeather extends React.Component{
         let sunriseTime = moment(data.sys.sunrise*1000)
         let sunsetTime = moment(data.sys.sunset*1000)
         let colors = ''
-        if(uvi>=0&&uvi<=2.9){
+        let uvLevelName = ''
+        if(uvi>=0&&uvi<=3){
             colors='#2ecc71'
+            uvLevelName='Thấp'
         }
-        else if(uvi>=8.0&&uvi<=10.9){
-            colors='#e74c3c'
-        }
-        else if(uvi>=3.0&&uvi<=5.9){
+        else if(uvi>=3&&uvi<6){
             colors='#f1c40f'
+            uvLevelName='Vừa'
         }
-        else if(uvi>=6.0&&uvi<=7.9){
+        else if(uvi>=6&&uvi<=8){
             colors='#e67e22'
+            uvLevelName='Cao'
         }
-        else if(uvi>=11.0){
+        else if(uvi>=8.0&&uvi<=11){
+            colors='#e74c3c'
+            uvLevelName='Rất Cao'
+        }
+        else if(uvi>=11){
             colors='#8e44ad'
+            uvLevelName='Nguy Hiểm'
         }
         return(
             <View style={{alignItems:'center'}}>
@@ -68,7 +74,7 @@ export default class CurrentWeather extends React.Component{
                             </Row>
                             <Row>
                                 <Image style={styles.img} source={uv}/>
-                                <Text style={{fontSize:20,marginLeft:10,color:colors}}>{`${uvi}`}</Text>
+                                <Text style={{fontSize:20,marginLeft:10,color:colors}}>{`${uvLevelName}`}</Text>
                             </Row>
                         </Col>
                     </Grid>

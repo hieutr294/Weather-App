@@ -1,5 +1,5 @@
 import React from 'react'
-import { View,Dimensions,StyleSheet} from "react-native";
+import { View,Dimensions,StyleSheet,ScrollView,RefreshControl} from "react-native";
 
 import axios from 'axios'
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -26,20 +26,26 @@ export default class HomePage extends React.Component{
     }
 
     getUvData(pos){
-        var currentUrl = `http://api.openweathermap.org/data/2.5/uvi?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=391528de4ad7f3ad43c7964a2bf118bd`
-        
-        axios.get(currentUrl)
+        axios({
+            "method":"GET",
+            "url":"https://api.openuv.io/api/v1/uv",
+            "headers":{
+            'content-type': 'application/json',
+            'x-access-token': '6abf8c1ab048d0cb001e2b3fc3a7d71c'
+            },"params":{
+                "lat": `${pos.coords.latitude}`, "lng": `${pos.coords.longitude}`
+            }
+        })
         .then(res=>{
             this.setState({
-                uv:res.data.value
+                uv:res.data.result.uv
             })
         })
         .catch(err=>{
             this.setState({
-            current:['error']
+                uv:err
             })
         })
-        console.log('uv call')
     }
 
     getWeatherData(pos){
@@ -56,7 +62,6 @@ export default class HomePage extends React.Component{
             current:['error']
             })
         })
-        console.log('weather call')
     }
     
     componentDidMount() {
@@ -71,12 +76,21 @@ export default class HomePage extends React.Component{
     }
 
     render(){
-        const { current,uv} = this.state
+        const { current,uv,location} = this.state
+        let a = false
         return(
             <View style={styles.container}>
-                {
-                    current.map((item,index)=><CurrentWeather key={index} data={item} uvi={uv}/>)
-                }
+                <ScrollView refreshControl={
+                    <RefreshControl refreshing={a} onRefresh={()=>{
+                        this.getWeatherData(location)
+                        this.getUvData(location)
+                        a=true
+                    }}/>
+                }>
+                    {
+                        current.map((item,index)=><CurrentWeather key={index} data={item} uvi={uv}/>)
+                    }
+                </ScrollView>
             </View>
         )
     }
