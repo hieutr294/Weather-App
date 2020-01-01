@@ -19,8 +19,12 @@ export default class CurrentWeather extends React.Component{
         const {data,uvi} = this.props
         let sunriseTime = moment(data.sys.sunrise*1000)
         let sunsetTime = moment(data.sys.sunset*1000)
+        let icon = ''
         let colors = ''
         let uvLevelName = ''
+
+        data.weather.map(item=>icon=item.icon)
+
         if(uvi>=0&&uvi<=3){
             colors='#2ecc71'
             uvLevelName='Thấp'
@@ -45,7 +49,7 @@ export default class CurrentWeather extends React.Component{
             <View style={{alignItems:'center'}}>
                 <Text style={styles.header}>{`${data.name} Hiện Tại`}</Text>
                 <Text style={styles.header}>{`${moment(data.dt*1000).format('DD/MM/YYYY')}`}</Text>
-
+                <Image style={{width:100,height:100}} source={{uri:`https://openweathermap.org/img/wn/${icon}@2x.png`}}/>
                 <View style={styles.container}>
                     <Grid>
                         <Col>
@@ -53,10 +57,12 @@ export default class CurrentWeather extends React.Component{
                                 <Image style={styles.img} source={thermometer}/>
                                 <Text style={styles.textContent}>{`${data.main.temp}°C`}</Text>
                             </Row>
+
                             <Row>
                                 <Image style={styles.img} source={sunrise}/>
                                 <Text style={styles.textContent}>{`${sunriseTime.format("hh:mm A")}`}</Text>
                             </Row>
+
                             <Row>
                                 <Image style={styles.img} source={sunset}/>
                                 <Text style={styles.textContent}>{`${sunsetTime.format("hh:mm A")}`}</Text>
@@ -78,9 +84,7 @@ export default class CurrentWeather extends React.Component{
                             </Row>
                         </Col>
                     </Grid>
-
                 </View>
-
             </View>
         )
     }
@@ -88,9 +92,8 @@ export default class CurrentWeather extends React.Component{
 
 const styles = StyleSheet.create({
     container:{
-        flexDirection:'column',
         width:350,
-        height:120,
+        height:150,
         borderRadius:10,
         elevation:20,
         paddingTop:10,

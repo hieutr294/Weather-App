@@ -98,10 +98,8 @@ export default class HomePage extends React.Component{
 
 const styles = StyleSheet.create({
     container:{
-        justifyContent:'center',
-        alignItems:'center',
         width:width,
-        height:height-130,
+        height:height,
         backgroundColor:'#2ecc71'
     }
 })

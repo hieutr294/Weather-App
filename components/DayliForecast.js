@@ -30,17 +30,17 @@ export default class HeaderTitle extends React.Component{
 
     render(){
         const {dataWeather} = this.state
-        return(
-            <View style={styles.container}>
 
-                <ScrollView style={{width:400}} contentContainerStyle={{alignItems:'center'}}>
+        return(
+
+                <ScrollView style={{width:400}} contentContainerStyle={{alignItems:'center',paddingBottom:20}}>
                     <Text style={styles.header}>Dự báo 5 ngày tới</Text>
                     {
                         dataWeather.map((item,index)=><View key={index} style={styles.child}>
                             <Grid>
                                 <Col>
                                     <Row>
-                                        <Text style={{paddingLeft:10,fontSize:16}}>{moment(item.dt*1000).format("DD/MM/YYYY hh:mm A")}</Text>
+                                        <Text style={{paddingLeft:10,fontSize:16}}>{moment(item.dt*1000).format("dddd hh:mm A")}</Text>
                                     </Row>
                                     <Row>
                                         <Image style={styles.img} source={thermometer}/>
@@ -62,8 +62,7 @@ export default class HeaderTitle extends React.Component{
                         </View>)
                     }
                 </ScrollView>
-                
-            </View>
+
         )
     }
 }
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
         width:350,
         height:100,
         borderRadius:10,
-        elevation:5,
+        elevation:10,
         backgroundColor:'#fff'
     },
     img:{
