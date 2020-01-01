@@ -1,5 +1,5 @@
 import React from 'react'
-import {View,Image,StyleSheet,Text} from 'react-native'
+import {View,Image,StyleSheet,Text,Dimensions} from 'react-native'
 import {Grid,Col, Row} from 'native-base'
 import moment from 'moment'
 
@@ -9,6 +9,9 @@ import sunset from '../assets/sunset.png'
 import humidity from '../assets/humidity.png'
 import wind from '../assets/wind.png'
 import uv from '../assets/uv.png'
+
+let width = Dimensions.get('window').width
+let height = Dimensions.get('window').height
 
 export default class CurrentWeather extends React.Component{
     constructor(props){
@@ -46,12 +49,20 @@ export default class CurrentWeather extends React.Component{
             uvLevelName='Nguy Hiểm'
         }
         return(
-            <View style={{alignItems:'center'}}>
+            <View style={styles.container}>
+                
                 <Text style={styles.header}>{`${data.name} Hiện Tại`}</Text>
                 <Text style={styles.header}>{`${moment(data.dt*1000).format('DD/MM/YYYY')}`}</Text>
-                <Image style={{width:100,height:100}} source={{uri:`https://openweathermap.org/img/wn/${icon}@2x.png`}}/>
-                <View style={styles.container}>
+                
+                <View style={styles.child}>
+                    <Grid style={{alignItems:'center'}}>
+                        <Row>
+                            <Image style={{width:100,height:100}} source={{uri:`https://openweathermap.org/img/wn/${icon}@2x.png`}}/>
+                        </Row>
+                    </Grid>
+
                     <Grid>
+
                         <Col>
                             <Row>
                                 <Image style={styles.img} source={thermometer}/>
@@ -83,6 +94,7 @@ export default class CurrentWeather extends React.Component{
                                 <Text style={{fontSize:20,marginLeft:10,color:colors}}>{`${uvLevelName}`}</Text>
                             </Row>
                         </Col>
+
                     </Grid>
                 </View>
             </View>
@@ -92,16 +104,18 @@ export default class CurrentWeather extends React.Component{
 
 const styles = StyleSheet.create({
     container:{
+        alignItems:'center',
+        height:height,
+        width:width
+    },
+    child:{
         width:350,
-        height:150,
+        height:250,
         borderRadius:10,
         elevation:20,
         paddingTop:10,
         paddingHorizontal:10,
         backgroundColor:'#fff'
-    },
-    child:{
-        flexDirection:'row',
     },
     img:{
         width:32,

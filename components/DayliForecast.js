@@ -30,31 +30,35 @@ export default class HeaderTitle extends React.Component{
 
     render(){
         const {dataWeather} = this.state
-
         return(
 
                 <ScrollView style={{width:400}} contentContainerStyle={{alignItems:'center',paddingBottom:20}}>
                     <Text style={styles.header}>Dự báo 5 ngày tới</Text>
                     {
                         dataWeather.map((item,index)=><View key={index} style={styles.child}>
-                            <Grid>
-                                <Col>
-                                    <Row>
-                                        <Text style={{paddingLeft:10,fontSize:16}}>{moment(item.dt*1000).format("dddd hh:mm A")}</Text>
-                                    </Row>
+
+                            <Grid style={{alignItems:'center',paddingBottom:25}}>
+                                <Row>
+                                    <Text style={{paddingLeft:10,fontSize:16}}>{moment(item.dt*1000).format("dddd hh:mm A")}</Text>
+                                </Row>
+                                <Row style={{alignItems:'center'}}>
+                                    {
+                                        item.weather.map((icon,idx)=><Image key={idx} style={{width:50,height:50}} source={{uri:`https://openweathermap.org/img/wn/${icon.icon}@2x.png`}}/>)
+                                    }
+                                </Row>
+                            </Grid>
+
+                            <Grid >
+                                <Col style={{alignItems:'center'}}>
                                     <Row>
                                         <Image style={styles.img} source={thermometer}/>
                                         <Text style={styles.textContent}>{`   ${item.main.temp}°C`}</Text>
                                     </Row>
                                 </Col>   
-                                <Col>
+                                <Col style={{alignItems:'center'}}>
                                     <Row>
                                         <Image style={styles.img} source={humidity}/>
                                         <Text style={styles.textContent}>{`   ${item.main.humidity}%`}</Text>
-                                    </Row>
-                                    <Row>
-                                        <Image style={styles.img} source={wind}/>
-                                        <Text style={styles.textContent}>{`  ${item.wind.speed} m/s`}</Text>
                                     </Row>
                                 </Col>
                             </Grid>
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
     child:{
         marginTop:20,
         width:350,
-        height:100,
+        height:150,
         borderRadius:10,
         elevation:10,
         backgroundColor:'#fff'
